@@ -78,6 +78,34 @@
 
   #modal{position:fixed;inset:0;background:rgba(20,16,12,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
   #modal[hidden]{display:none}
+  #fmt{position:fixed;inset:0;background:rgba(20,16,12,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:11}
+  #fmt[hidden]{display:none}
+  .opt{display:block;width:100%;text-align:right;background:#fff;border:2px solid var(--ink);border-radius:16px;padding:12px 16px;margin:10px 0;box-shadow:0 3px 0 var(--ink)}
+  .opt:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+  .opt b{display:block;font-weight:800;font-size:18px}
+  .opt span{display:block;color:var(--muted);font-size:13.5px;line-height:1.8;margin-top:2px}
+  .chk{display:flex;align-items:center;gap:8px;justify-content:center;font-size:14.5px;color:var(--muted);margin:12px 0 6px}
+  .chk input{width:20px;height:20px}
+  @media screen{#printView{display:none}}
+  @media print{
+    @page{size:A4;margin:12mm}
+    .wrap,.bar,#modal,#fmt{display:none!important}
+    body{background:#fff;padding:0;font-size:12.5pt;line-height:1.9}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    #printView{display:block}
+    #printView h1{font-size:26pt;font-weight:900;margin:0 0 4px;line-height:1.4}
+    #printView h2{font-size:17pt;font-weight:800;margin:0 0 8px}
+    .pv-nav{font-size:11pt;margin:0 0 8px}
+    .pv-nav a,.pv-foot a{color:#1d4ed8;margin-inline-end:14px}
+    .pv-img{display:block;max-width:100%;max-height:238mm;width:auto;margin:0 auto}
+    .pv-break{break-before:page}
+    .pv-entry{break-inside:avoid;border-top:1px dashed #bbb;padding:7px 0}
+    .pv-entry b{font-size:13.5pt}
+    .pv-entry p{margin:2px 0 0;color:#333;font-size:11.5pt}
+    .pv-badge{display:inline-block;min-width:28px;text-align:center;border-radius:50%;border:2px solid #151311;margin-inline-end:8px;font-weight:800;line-height:1.5}
+    .pv-foot{margin-top:18px;font-size:10.5pt;color:#555;text-align:center}
+    .grp{break-inside:avoid}
+  }
   .sheet{background:#fff;border-radius:22px;padding:20px;max-width:440px;width:100%;max-height:92vh;overflow:auto;text-align:center}
   .sheet h3{font-family:Vazirmatn,sans-serif;font-weight:800;font-size:26px;margin:0 0 6px}
   .sheet p{margin:0 0 12px;color:var(--muted);font-size:16px}
@@ -194,6 +222,20 @@
   </div>
 </div>
 
+<div id="printView" dir="rtl" aria-hidden="true"></div>
+
+<div id="fmt" hidden role="dialog" aria-modal="true" aria-labelledby="ft">
+  <div class="sheet">
+    <h3 id="ft">چطوری ذخیره کنم؟</h3>
+    <p>یکی از حالت‌ها رو انتخاب کن:</p>
+    <button class="opt" id="fImg" type="button"><b>تصویر ساده</b><span>همون پوستر شیشه‌ها؛ مناسب استوری و پروفایل.</span></button>
+    <button class="opt" id="fExp" type="button"><b>تصویر همراه توضیحات</b><span>پوستر شیشه‌ها و زیرش توضیح هر اصطلاح؛ مناسب فرستادن برای کسی که اصطلاح‌ها رو نمی‌شناسه.</span></button>
+    <button class="opt" id="fPdf" type="button"><b>PDF با کیفیت بالا</b><span>پوستر، توضیحات به‌صورت متن واقعی و قابل انتخاب، لینک‌های قابل کلیک و (اگه مقایسه کرده باشی) صفحه‌ی مقایسه. توی پنجره‌ی چاپ مقصد رو «ذخیره به‌صورت PDF» (Save as PDF) بذار.</span></button>
+    <label class="chk"><input type="checkbox" id="allInfo"> توضیح همه‌ی شیشه‌ها بیاد، نه فقط پرشده‌ها</label>
+    <button class="linkbtn" id="fClose" type="button">بستن</button>
+  </div>
+</div>
+
 <script>
 /* ===== Edit the jars here. Each array is the label, one entry per line. ===== */
 const JARS = [
@@ -207,9 +249,9 @@ const JARS_INFO = [
   "ساب (Sub): نقش مقابل دام؛ کسی که با میل خودش کنترل رو می‌سپاره و از دستور گرفتن لذت می‌بره. حد و مرزها رو خودش مشخص می‌کنه.",
   "سوییچ (Switch): کسی که هم نقش دام رو دوست داره هم ساب رو، و بسته به پارتنر یا موقعیت بینشون جابه‌جا می‌شه.",
   "(Choking) فشار دادن گلوی پارتنر با رضایت اون. خیلی خطرناکه و حتی بدون علامت ظاهری می‌تونه آسیب جدی یا مرگ ایجاد کنه. اگه علاقه‌مندی، اول آموزش معتبر ببین.",
-  "همون چیزه، از دید کسی که گلوش گرفته می‌شه. همون هشدار ایمنی بالا اینجا هم صادقه.",
+  "(Being choked) این‌که پارتنرت گلوت رو با رضایت خودت فشار بده. خیلی خطرناکه و حتی بدون علامت ظاهری می‌تونه آسیب جدی یا مرگ ایجاد کنه. اگه علاقه‌مندی، اول آموزش معتبر ببین.",
   "(Spanking) زدن با کف دست یا وسیله‌ی ملایم روی باسن پارتنر، با رضایت اون؛ به‌عنوان بازی یا تنبیه نمادین.",
-  "همون چیزه، از دید کسی که روی باسنش زده می‌شه.",
+  "(Being spanked) این‌که با کف دست یا وسیله‌ی ملایم روی باسنت زده بشه، با رضایت خودت؛ به‌عنوان بازی یا تنبیه نمادین.",
   "(Daddy Dom / Little Girl و Mommy Dom / Little Boy) یه نقش‌آفرینی بین دو بزرگسال: یکی نقش مراقب و سرپرست رو بازی می‌کنه و اون یکی نقش «کوچولو» با حس ناز و وابستگی. هر دو بزرگسال‌ان و ربطی به کودک واقعی نداره.",
   "(Age play) نقش‌آفرینی بین بزرگسال‌ها که توش یه نفر رفتار و لحن یه سن دیگه رو بازی می‌کنه. هر دو بزرگسال‌ان و با توافقن؛ هیچ ربطی به کودک واقعی نداره.",
   "(Exhibitionism) کارهای جنسی یا هیجان‌انگیز جایی که احتمال دیده شدن هست. یادت باشه بقیه رضایت ندادن و در خیلی از کشورها (از جمله ایران) جرمه و ریسک واقعی داره.",
@@ -225,7 +267,7 @@ const JARS_INFO = [
   "(Bondage، از دید کسی که بسته می‌شه) با طناب، بند یا دستبند دست و پات بسته می‌شه. باید بتونی سریع آزاد بشی (قیچی ایمنی دم‌دست باشه) و هیچ‌وقت تنها نباش.",
   "(Bondage، از دید کسی که می‌بنده) مسئولیت ایمنی با توئه: گردش خون، تنفس و علامت‌های ناراحتی پارتنرت رو مرتب چک کن.",
   "(Humiliation) حرف‌ها یا رفتارهای تحقیرآمیز با اجازه‌ی پارتنر، به‌عنوان بازی. فرقش با توهین واقعی اینه که طرف از قبل خواسته و حدش مشخصه.",
-  "همون چیزه، از دید کسی که تحقیر می‌شه. این یه بازیه و نظر واقعی کسی درباره‌ی تو نیست.",
+  "(Being humiliated) حرف‌ها یا رفتارهای تحقیرآمیز با اجازه‌ی خودت، به‌عنوان بازی. این یه بازیه و نظر واقعی کسی درباره‌ی تو نیست.",
   "(BDSM) اصطلاح کلی: بندگی و انضباط (Bondage & Discipline)، سلطه و تسلیم (Dominance & Submission) و سادیسم و مازوخیسم. یعنی بازی‌های قدرت، کنترل و حس‌های شدید. اصل اصلیش «ایمن، عاقلانه و با رضایت» (SSC) ـه.",
   "(Threesome) رابطه‌ی جنسی بین سه نفر. همه باید دقیقاً خبر داشته باشن و راضی باشن؛ درباره‌ی حسادت و حد و مرزها از قبل حرف بزنید.",
   "(Sadism) لذت بردن از ایجاد درد یا داشتن کنترل روی پارتنر، توی بازی توافقی و نه آسیب واقعی.",
@@ -421,12 +463,12 @@ function drawJar(c, idx, level, rgb) {
 }
 
 /* ===== poster ===== */
-function drawPoster(canvas, scale) {
+function drawPoster(canvas, scale, extra = 0) {
   const rgb = hexToRgb(state.color);
-  canvas.width = PW * scale; canvas.height = PH * scale;
+  canvas.width = PW * scale; canvas.height = (PH + extra) * scale;
   const c = canvas.getContext("2d");
   c.setTransform(scale, 0, 0, scale, 0, 0);
-  c.fillStyle = "#fff"; c.fillRect(0, 0, PW, PH);
+  c.fillStyle = "#fff"; c.fillRect(0, 0, PW, PH + extra);
 
   c.direction = "rtl";
   c.fillStyle = INK; c.textBaseline = "alphabetic"; c.textAlign = "left";
@@ -546,8 +588,6 @@ async function exportPng(draw, base) {
   document.body.appendChild(a); a.click(); a.remove();
   $("modalImg").src = url; $("modal").hidden = false; $("closeModal").focus();
 }
-const save = () => exportPng(cv => drawPoster(cv, 2), "kink-jars-fa");
-$("save").onclick = save; $("saveBar").onclick = save;
 $("closeModal").onclick = () => { $("modal").hidden = true; };
 $("modal").addEventListener("click", e => { if (e.target.id === "modal") $("modal").hidden = true; });
 $("reset").onclick = () => {
@@ -661,6 +701,85 @@ function loadHash() {
   update(); setTimeout(() => $("cmp").scrollIntoView({ behavior: "smooth" }), 400);
 }
 addEventListener("hashchange", loadHash);
+
+/* ===== خروجی: تصویر ساده، تصویر با توضیحات، PDF ===== */
+function explainItems(all) { return JARS.map((l, i) => ({ t: l.join(" "), lv: state.answers[i], info: JARS_INFO[i] })).filter(x => all || x.lv); }
+function wrapText(ctx, text, maxW) {
+  const words = text.split(" "), lines = []; let cur = "";
+  for (const w of words) { const t = cur ? cur + " " + w : w; if (cur && ctx.measureText(t).width > maxW) { lines.push(cur); cur = w; } else cur = t; }
+  if (cur) lines.push(cur); return lines;
+}
+function drawExplained(canvas, all) {
+  const items = explainItems(all), rgb = hexToRgb(state.color);
+  const RX = PW - 80, TX = RX - 76, TW = TX - 80, FS = 26, LH = 44, HEAD = 190, FOOT = 120;
+  const m = document.createElement("canvas").getContext("2d"); m.direction = "rtl"; m.font = `500 ${FS}px ${FONT}`;
+  const blocks = items.map(it => { const lines = wrapText(m, it.info, TW); return { ...it, lines, h: 56 + lines.length * LH + 30 }; });
+  let EH = HEAD + FOOT + (blocks.length ? 0 : 80); blocks.forEach(b => EH += b.h);
+  const scale = Math.min(2, Math.sqrt(14e6 / (PW * (PH + EH))));   // سقف اندازه‌ی canvas در گوشی
+  drawPoster(canvas, scale, EH);
+  const c = canvas.getContext("2d"); c.direction = "rtl"; c.textBaseline = "alphabetic";
+  c.fillStyle = INK; c.textAlign = "center"; c.font = `900 56px ${FONT}`; c.fillText("توضیح اصطلاح‌ها", PW / 2, PH + 80);
+  c.fillStyle = "#555"; c.font = `500 26px ${FONT}`; c.fillText("هر عدد یعنی شیشه چقدر پره: ۱ = کمی … ۵ = لبریز", PW / 2, PH + 130);
+  let y = PH + HEAD;
+  if (!blocks.length) { c.fillStyle = "#777"; c.fillText("هنوز هیچ شیشه‌ای پر نشده.", PW / 2, y + 40); y += 80; }
+  blocks.forEach(b => {
+    c.strokeStyle = "#e9e0d5"; c.lineWidth = 3; c.setLineDash([10, 8]); c.beginPath(); c.moveTo(80, y); c.lineTo(PW - 80, y); c.stroke(); c.setLineDash([]);
+    const cy = y + 46;
+    c.beginPath(); c.arc(RX - 26, cy, 26, 0, 7); c.fillStyle = b.lv ? css(rgb) : "#e4e4e4"; c.fill(); c.lineWidth = 3; c.strokeStyle = INK; c.stroke();
+    c.fillStyle = b.lv && lum(rgb) <= 0.6 ? "#fff" : INK; c.textAlign = "center"; c.font = `800 28px ${FONT}`; c.fillText(b.lv ? FA(b.lv) : "–", RX - 26, cy + 10);
+    c.fillStyle = INK; c.textAlign = "right"; c.font = `800 32px ${FONT}`; c.fillText(b.t, TX, y + 56);
+    c.fillStyle = "#444"; c.font = `500 ${FS}px ${FONT}`;
+    b.lines.forEach((l, k) => c.fillText(l, TX, y + 56 + LH * (k + 1)));
+    y += b.h;
+  });
+  c.fillStyle = "#888"; c.textAlign = "center"; c.font = `500 22px ${FONT}`;
+  c.fillText("نسخه‌ی فارسی · پروژه‌ی اصلی: lockedtony/kink-jars", PW / 2, y + 60);
+}
+async function exportPdf() {
+  const all = $("allInfo").checked, pv = $("printView"), name = state.name.trim(), rgb = hexToRgb(state.color);
+  pv.textContent = "";
+  const mk = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
+  const img = draw => { const cv = document.createElement("canvas"); draw(cv); const im = new Image(); im.className = "pv-img"; im.alt = ""; im.src = cv.toDataURL("image/png"); return im; };
+  const link = (href, txt) => { const a = mk("a", "", txt); a.href = href; return a; };
+  pv.appendChild(mk("h1", "", "شیشه‌های کینک" + (name ? " · " + name : "")));
+  const nav = mk("p", "pv-nav"); nav.appendChild(link("#pv-info", "توضیح اصطلاح‌ها"));
+  if (state.partner) nav.appendChild(link("#pv-cmp", "مقایسه"));
+  nav.appendChild(link("https://github.com/lockedtony/kink-jars", "پروژه‌ی اصلی")); pv.appendChild(nav);
+  pv.appendChild(img(cv => drawPoster(cv, 2)));
+  const info = mk("section", "pv-break"); info.id = "pv-info"; info.appendChild(mk("h2", "", "توضیح اصطلاح‌ها"));
+  const items = explainItems(all);
+  if (!items.length) info.appendChild(mk("p", "", "هنوز هیچ شیشه‌ای پر نشده."));
+  items.forEach(it => {
+    const e = mk("div", "pv-entry"), b = mk("span", "pv-badge", it.lv ? FA(it.lv) : "–");
+    b.style.background = it.lv ? state.color : "#e4e4e4"; b.style.color = it.lv && lum(rgb) <= 0.6 ? "#fff" : INK;
+    const t = mk("b", "", it.t); const d = mk("p", "", it.info);
+    const h = mk("div"); h.appendChild(b); h.appendChild(t); e.appendChild(h); e.appendChild(d); info.appendChild(e);
+  });
+  pv.appendChild(info);
+  if (state.partner) {
+    const cs = mk("section", "pv-break"); cs.id = "pv-cmp";
+    cs.appendChild(mk("h2", "", `مقایسه‌ی ${name || "من"} و ${state.partner.name.trim() || "اون"} · هم‌خوانی ${FA(compare().pct)}٪`));
+    cs.appendChild(img(cv => drawComparePoster(cv, 1.5)));
+    cs.appendChild($("cmpGroups").cloneNode(true)); pv.appendChild(cs);
+  }
+  const foot = mk("p", "pv-foot", "نسخه‌ی فارسی · پروژه‌ی اصلی: "); foot.appendChild(link("https://github.com/lockedtony/kink-jars", "github.com/lockedtony/kink-jars"));
+  if (/^https?:/.test(location.href)) { foot.appendChild(document.createTextNode(" · ")); foot.appendChild(link(location.href.split("#")[0], "این نسخه")); }
+  pv.appendChild(foot);
+  await Promise.all([...pv.querySelectorAll("img")].map(i => i.decode().catch(() => {})));
+  const oldTitle = document.title; document.title = (name ? name + "-" : "") + "kink-jars-fa";
+  const done = () => { document.title = oldTitle; pv.textContent = ""; removeEventListener("afterprint", done); };
+  addEventListener("afterprint", done);
+  window.print();
+}
+const closeFmt = () => { $("fmt").hidden = true; };
+const openFmt = () => { $("fmt").hidden = false; $("fImg").focus(); };
+$("save").onclick = openFmt; $("saveBar").onclick = openFmt;
+$("fClose").onclick = closeFmt;
+$("fmt").addEventListener("click", e => { if (e.target.id === "fmt") closeFmt(); });
+$("fImg").onclick = () => { closeFmt(); exportPng(cv => drawPoster(cv, 2), "kink-jars-fa"); };
+$("fExp").onclick = () => { closeFmt(); exportPng(cv => drawExplained(cv, $("allInfo").checked), "kink-jars-fa-tozihat"); };
+$("fPdf").onclick = () => { closeFmt(); exportPdf(); };
+addEventListener("keydown", e => { if (e.key === "Escape") closeFmt(); });
 
 render();
 loadHash();
