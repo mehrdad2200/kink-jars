@@ -1,18 +1,43 @@
-# Kink Jars
+# شیشه‌های کینک (نسخه‌ی فارسی)
 
-A single-page questionnaire: pick a color, rate each jar 1–5, save a PNG.
-Everything runs in the browser. Nothing is uploaded, and answers are only kept in that person's browser (localStorage) so a refresh doesn't wipe them.
+ترجمه‌ی کامل فارسی و راست‌چین‌شده‌ی پروژه‌ی **Kink Jars**.
 
-## Host it free on GitHub Pages
+- 🔗 پروژه‌ی اصلی: https://github.com/lockedtony/kink-jars
+- 🌐 نسخه‌ی آنلاین اصلی: https://lockedtony.github.io/kink-jars/
 
-1. Create a new repo (public is required for free Pages) and add `index.html`.
-2. Repo **Settings → Pages → Build and deployment → Source: Deploy from a branch**, pick `main` / `(root)`, Save.
-3. After a minute it's live at `https://<your-username>.github.io/<repo-name>/`.
+یک پرسش‌نامه‌ی تک‌صفحه‌ای: یک رنگ انتخاب کن، به هر شیشه از ۱ تا ۵ امتیاز بده و عکسش را (PNG) ذخیره کن.
+همه‌چیز داخل مرورگر اجرا می‌شه؛ هیچ چیزی آپلود نمی‌شه.
 
-Netlify Drop or Cloudflare Pages work too: drag the folder in, done.
+## چی تغییر کرده؟
 
-## Customizing
+- همه‌ی متن‌ها فارسی شدن و صفحه راست‌چین (RTL) شده.
+- برچسب شیشه‌ها داخل آرایه‌ی `JARS` در `index.html` فارسی شدن و ترتیب شیشه‌ها در تصویر نهایی از راست به چپه.
+- همه‌ی متن‌ها، دکمه‌ها و تصویر خروجی با فونت وزیرمتن (Vazirmatn، مجوز OFL) داخل پوشه‌ی `fonts` هست، پس به گوگل‌فونت یا اینترنت خارجی نیازی نیست.
+- ارقام فارسی شدن و نام فایل خروجی `kink-jars-fa.png` شده.
 
-- **Jar labels:** edit the `JARS` array at the top of the `<script>`. Each entry is a list of label lines. The grid is 7 columns wide and grows rows as needed.
-- **Preset colors:** edit `PRESETS`.
-- **Overflow looks:** six styles (drips, puddle, foam with popped lid, geyser, splash, hearts), assigned so neighbors never match. Details are seeded per jar, so every friend's sheet is consistent.
+## مقایسه‌ی دو نفره (مرحله ۵)
+
+1. هر کدوم شیشه‌هاتون رو پر کنید.
+2. با دکمه‌ی «کپی لینک من» لینک خودتون رو برای هم بفرستید (یا لینک رو باز کنید تا خودکار بارگذاری بشه).
+3. لینک طرف مقابل رو توی کادر بچسبونید و «مقایسه کن» رو بزنید.
+
+خروجی: درصد هم‌خوانی، فهرست علاقه‌های مشترک، «فقط من» و «فقط اون»، و یک تصویر PNG که برای هر شیشه دو شیشه‌ی هم‌رنگ هر نفر رو کنار هم نشون می‌ده.
+جواب‌ها فقط داخل خود لینک (بعد از `#`) هستن؛ به هیچ سروری فرستاده یا ذخیره نمی‌شن.
+مقایسه روی GitHub Pages کار می‌کنه، چون لینک باید به آدرس آنلاین سایت اشاره کنه.
+
+## میزبانی رایگان روی GitHub Pages
+
+1. فایل‌ها را در یک مخزن (repo) عمومی آپلود کن.
+2. برو به **Settings → Pages → Build and deployment → Source: Deploy from a branch**، شاخه‌ی `main` و پوشه‌ی `/ (root)` را انتخاب و Save کن.
+3. بعد از حدود یک دقیقه این آدرس فعال می‌شه: `https://<نام‌کاربری>.github.io/<نام‌مخزن>/`
+
+## سفارشی‌سازی
+
+- **برچسب‌ها:** آرایه‌ی `JARS` بالای تگ `<script>`.
+- **رنگ‌های آماده:** آرایه‌ی `PRESETS`.
+
+## اعتبار و مجوز
+
+ایده، طراحی و کد اصلی متعلق به صاحب پروژه‌ی اصلی (`lockedtony`) است و این فقط ترجمه و راست‌چین‌سازیه.
+پروژه‌ی اصلی فایل مجوز (LICENSE) ندارد؛ قبل از انتشار عمومی بهتره از صاحب اثر اجازه بگیری.
+فونت وزیرمتن تحت مجوز SIL OFL است (فایل `fonts/OFL.txt`).
